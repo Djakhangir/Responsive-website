@@ -1,0 +1,231 @@
+body {
+  font-size: 15px;
+}
+
+button {
+  background: #ffc600;
+  border: 0;
+  padding: 10px 20px;
+}
+
+img {
+  max-width: 100%;
+}
+
+      /* Wrapper */
+
+/*wrapper helps us to wrap everything on global styles and avoid giving gaps for each items;  */
+  .wrapper {
+    display:  grid;
+    grid-gap: 20px;
+  }
+
+/* gird-template-area: is better for responsiveness since it is better to rearrange; */
+.top  {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-areas: 
+        "hero hero cta1"
+        "hero hero cta2" 
+}
+
+/* now we grab those names and manipulate */
+.hero {
+  grid-area: hero;
+  min-height: 400px;
+  background: white url(images/taco.jpg);
+  background-size: cover;
+  background-position: bottom-right;
+  padding: 50px;
+  display: flex;  /*flex helps us to end the covering yellow color to stop exactly with the text area; if I do that with grid, it will work as one column and all yellow bg color will end with the biggest text, meaning if the text is shorter it will still plong the yellow color. see and play around; ( it is the p and h1 tag under hero class; */
+  flex-direction: column; /*we are using flex, so we work only 1 dimensional as in this case columns;*/
+  align-items: start;
+  justify-content: center;
+}
+    /* grabbing all hero items */
+    .hero > * {
+      background: var(--yellow);
+      padding: 5px;
+    }
+
+.cta {
+  background: var(--yellow);
+  display: grid;
+  place-items: center center; /*shorthand for align and justify- items; */
+  align-content: center;
+}
+
+.cta p {
+  margin: 0;
+}
+
+.cta1 {
+  grid-area: cta1;
+}
+
+.cta2 {
+  grid-area: cta2;
+}
+
+.price {
+  font-size: 60px;
+  font-weight: 300;
+}
+
+      /* Navigation */
+
+.menu ul {
+  display: grid;
+  grid-gap: 10px;
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* in example it was 100px;*/
+}
+
+.menu a {
+  background: var(--yellow);
+  display: block; /* block is to make the yellow spread all over the space; */
+  text-decoration: none;
+  padding: 10px;
+  text-align: center;
+  color: var(--black);
+  text-transform: Uppercase;
+  font-size: 20px;
+}
+
+/* that is the button we have for the manu - attribute selector in css done like: */
+[aria-controls="menu-list"] {
+  display: none;
+}
+
+/* Features */
+
+.features {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.feature {
+  background: white;
+  padding: 10px;
+  border: 1px solid white;
+  text-align: center;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+.feature .icon {
+  font-size: 50px;
+}
+
+.feature p {
+  color: rgba(0,0,0,0.5);
+}
+
+        /*  About Section  */
+
+.about {
+  background: white;
+  padding: 50px;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  align-items: center;
+}
+
+        /*  Gallery  */
+
+.gallery {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.gallery img {
+  width: 100%;
+}
+
+.gallery h2 {
+  grid-column: 1 / -1;
+  display: grid; /* indicated grid in order to manipulate with yellow design before and after the h2 tag;*/
+  grid-template-columns: 1fr auto 1fr;
+  grid-gap: 20px;
+  align-items: center;
+}
+
+/* background here indicates which direction to change the color; */
+.gallery h2:before, .gallery h2:after {
+  display: block;
+  content:'';
+  height: 10px;
+  background: linear-gradient(to var(--direction, left), var(--yellow), transparent); 
+}
+
+.gallery h2:after {
+  --direction: right;
+}
+
+@media(max-width: 1000px) {
+  .menu {
+    order: -1;
+    perspective: 800px; /*to show the nice rotation;*/
+  }
+
+  [aria-controls="menu-list"] {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  /* to hide the menu on this screensize: and add the js to the button in mark up;
+  to show the slide up nicely we add the max-height value here and when we rotate to 0deg;*/
+  .menu ul {
+    max-height: 0;
+    overflow: hidden; /* to hide the item when it is rotated;*/
+    transform: rotateX(90deg);
+    transition: all 0.5s;
+  }
+
+/* ul tag that comes from the ancestor, meaning 'tilda' selector (~) that indicates sibling feature which is next one beside it; */
+  [aria-expanded="true"] ~ ul {
+    display: grid;
+    max-height: 500px;
+    transform: rotateX(0);
+  }
+
+  [aria-expanded="false"] .close {
+    display: none;
+  }
+
+  [aria-expanded="true"] .open {
+    display: inline-block;
+  }
+
+  [aria-expanded="true"] .close {
+    display: inline-block;
+  }
+
+  [aria-expanded="true"] .open {
+    display: none;
+  }
+}
+
+@media(max-width: 700px) {
+  .top {
+    grid-template-areas: 
+                "hero hero"
+                "cta1 cta2"
+  }
+
+  /* About */
+  .about {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media(max-width: 500px) {
+  .top {
+    grid-template-areas: 
+                "hero"
+                "cta1" 
+                "cta2"
+  }
+}
